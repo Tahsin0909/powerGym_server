@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const port = process.env.PORT || 2000;
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -40,7 +41,6 @@ const verifyToken = (req, res, next) => {
         }
         // attach decoded user so that others can get it
         req.user = decoded
-        const Decoded = decoded
         next()
     });
 }
@@ -111,7 +111,11 @@ function errorHandler(err, req, res, next) {
     console.error(err); // Log the error for debugging
     res.status(500).json({ error: err.message });
 }
+
+
 app.use(errorHandler);
-app.listen(2000, () => {
+
+
+app.listen(port, () => {
     console.log('Server started on port 2000');
 });
