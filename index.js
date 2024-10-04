@@ -92,6 +92,7 @@ app.post('/api/v1/logout', async (req, res) => {
     res.clearCookie('token', { maxAge: 0 }).send({ success: true });
 });
 
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 // Your existing routes and handlers
 app.get('/', (req, res) => {
