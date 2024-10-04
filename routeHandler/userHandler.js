@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 
 
 // get all users
-router.get('/', verifyToken, isAdmin, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const users = await User.find()
         res.json(users)
@@ -61,7 +61,7 @@ router.get('/', verifyToken, isAdmin, async (req, res) => {
 
 
 // get trainers
-router.get('/:email', verifyToken, async (req, res) => {
+router.get('/:email', async (req, res) => {
     try {
         const user = await User.findOne({ email: req.params.email })
         res.json(user)
