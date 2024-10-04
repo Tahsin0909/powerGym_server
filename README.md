@@ -1,11 +1,31 @@
-# QuickFinance Server
+# Power Gym Server
 
 ## Table Of Content
+- [Description](#Descriptions)
+- [DBDiagram](#DBDiagram)
 - [Technologies](#technologies)
 - [Installation](#installation)
 - [Environment Variable](#environment-variables)
 - [Running Locally](#running-locally)
-- [Contributors](#contributors)
+
+
+
+## Descriptions
+
+The Power Gym Management System is a web application designed to help gyms manage their daily tasks more easily. It allows gym staff to handle things like member management, class scheduling, and fitness tips. Members can sign up for classes and track their progress.
+
+Key Features:
+- Admin Dashboard: Admins can add, update, and manage users, gym classes, and fitness tips.
+- Member Portal: Members can view available classes, join sessions, and receive fitness tips.
+- User Authentication: Secure login for users, with special access for admins.
+- Database: Data is securely stored using MongoDB.
+- Token-Based Security: JWT tokens are used to secure user authentication.
+
+This system simplifies gym management for both staff and members.
+
+## DB_Diagram
+
+![diagram](https://i.ibb.co.com/2sDWd8L/Untitled-1.png)
 
 
 ## Technologies
@@ -22,7 +42,7 @@
 
 1. Clone the repository:
    ```bash
-    git clone https://github.com/its-asif/QuickFinance-server-side.git
+    git clone https://github.com/Tahsin0909/powerGym_server.git
    ```
 2. Install dependencies:
    ```bash
@@ -35,7 +55,7 @@
    ```bash
     nodemon index.js
    ```
-2. Access the application in your browser at `http://localhost:3000/`.
+2. Access the application in your browser at `http://localhost:2000/`.
 
 
 ## Environment Variables
