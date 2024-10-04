@@ -2,6 +2,21 @@ const express = require('express')
 const router = express.Router()
 const User = require('../schema/userSchema')
 const verifyToken =require("../index")
+
+
+
+// post a user
+router.post('/', async (req, res) => {
+    const user = new User(req.body)
+    console.log(user)
+
+    try {
+        const newUser =  await user.save() 
+        res.json(newUser)
+    } catch(err) {
+        res.status(500).json({ message: err.message })
+    }
+})
 // get all users
 router.get('/',verifyToken, async (req, res) => {
     try {
@@ -12,6 +27,7 @@ router.get('/',verifyToken, async (req, res) => {
     }
 }) 
 
+
 // get a user
 router.get('/:email',verifyToken, async (req, res) => {
     try {
@@ -21,6 +37,8 @@ router.get('/:email',verifyToken, async (req, res) => {
         res.send('Error ' + err)
     }
 })
+
+
 router.patch('/admin/:id',verifyToken, async(req,res)=>{
     try{
         const id = req.params.id;
@@ -40,6 +58,7 @@ router.patch('/admin/:id',verifyToken, async(req,res)=>{
       res.status(500).send({ error: 'An error occurred', message: error.message });
     }
    });
+
 router.get('/admin/:email',verifyToken,  async (req, res) => {
     const email = req.params.email;
     
@@ -54,18 +73,7 @@ router.get('/admin/:email',verifyToken,  async (req, res) => {
   });
 
 
-// post a user
-router.post('/', async (req, res) => {
-    const user = new User(req.body)
-    console.log(user)
 
-    try {
-        const newUser =  await user.save() 
-        res.json(newUser)
-    } catch(err) {
-        res.status(500).json({ message: err.message })
-    }
-})
 
 
 
