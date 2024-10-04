@@ -11,7 +11,7 @@ const app = express();
 
 // app.use(cors())
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://quickfinance-a948a.web.app', 'https://quickfinance-a948a.firebaseapp.com'],
+    origin: ['http://localhost:3000', 'https://quickfinance-a948a.web.app', 'https://quickfinance-a948a.firebaseapp.com'],
     credentials: true
 }));
 app.use(express.json()); 
@@ -92,6 +92,6 @@ function errorHandler(err, req, res, next) {
     res.status(500).json({ error: err.message });
 }
 app.use(errorHandler);
-app.listen(3000, () => {
-    console.log('Server started on port 3000');
+app.listen(2000, () => {
+    console.log('Server started on port 2000');
 });
