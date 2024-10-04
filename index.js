@@ -18,7 +18,6 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// `mongodb+srv://tajisan789:<db_password>@cluster0.uxzfht6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 // database connection with mongoose
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.uxzfht6.mongodb.net/${process.env.DB_NAME}`)
     .then(() => console.log("Connected to MongoDB"))
@@ -63,7 +62,7 @@ const isAdmin = (req, res, next) => {
         if (err) {
             return res.status(401).send({
                 "success": false,
-                "message": "Unauthorized access.",
+                "message": "token err.",
                 "errorDetails": "You must be an admin to perform this action."
             }
             );
