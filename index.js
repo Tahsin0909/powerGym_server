@@ -12,7 +12,7 @@ const app = express();
 
 // app.use(cors())
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://power-gym-server.vercel.app/', 'https://quickfinance-a948a.firebaseapp.com'],
+    origin: ['http://localhost:3000', 'https://quickfinance-a948a.firebaseapp.com'],
     credentials: true
 }));
 app.use(express.json());
