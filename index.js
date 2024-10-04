@@ -80,6 +80,9 @@ module.exports = isAdmin;
 // Handle OPTIONS requests
 app.options('*', cors());
 
+
+
+
 // Auth related APIs
 
 app.post('/api/v1/jwt', (req, res) => {
@@ -107,6 +110,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', require('./routeHandler/userHandler'));
+app.use('/api/tips', require('./routeHandler/tipsHandler'));
 // app.use('/api/transactions', verifyToken, require('./routeHandler/transactionHandler'));
 // app.use('/api/dashboard', verifyToken, require('./routeHandler/dashboardHandler'));
 // app.use('/api/budget', verifyToken, require('./routeHandler/budgetHandler'));

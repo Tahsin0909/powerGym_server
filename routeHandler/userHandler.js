@@ -18,6 +18,7 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: err.message })
     }
 })
+
 // get all users
 router.get('/',verifyToken,isAdmin,  async (req, res) => {
     try {
@@ -29,7 +30,7 @@ router.get('/',verifyToken,isAdmin,  async (req, res) => {
 }) 
 
 
-// get a user
+// get trainers
 router.get('/:email',verifyToken, async (req, res) => {
     try {
         const user = await User.findOne({ email: req.params.email })
@@ -39,39 +40,6 @@ router.get('/:email',verifyToken, async (req, res) => {
     }
 })
 
-
-router.patch('/admin/:id',verifyToken, async(req,res)=>{
-    try{
-        const id = req.params.id;
-    
-      
-      const updatedDoc = {
-        $set:{
-          isAdmin :true
-        }
-      }
-      const result = await User.findByIdAndUpdate(id,updatedDoc);
-      res.send(result);
-      
-  
-    }
-    catch (error) {
-      res.status(500).send({ error: 'An error occurred', message: error.message });
-    }
-   });
-
-router.get('/admin/:email',verifyToken,  async (req, res) => {
-    const email = req.params.email;
-    
-    const query = { email: email }
-    const user = await User.findOne(query)
-    let isAdmin = false;
-    if (user) {
-        isAdmin = user?.isAdmin === true;
-    }
-    res.send({isAdmin})
-    console.log(isAdmin);
-  });
 
 
 
