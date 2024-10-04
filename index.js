@@ -53,13 +53,23 @@ const isAdmin = (req, res, next) => {
 
     // If the client does not send a token
     if (!token) {
-        return res.status(401).send({ message: 'You are not authorized' });
+        return res.status(401).send({
+            "success": false,
+            "message": "Unauthorized access.",
+            "errorDetails": "You must be an admin to perform this action."
+        }
+        );
     }
 
     // Verify the token
     jwt.verify(token, secret, function (err, decoded) {
         if (err) {
-            return res.status(401).send({ message: 'You are not authorized' });
+            return res.status(401).send({
+                "success": false,
+                "message": "Unauthorized access.",
+                "errorDetails": "You must be an admin to perform this action."
+            }
+            );
         }
 
         // Attach decoded user data to req and check if the user is admin
@@ -111,6 +121,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', require('./routeHandler/userHandler'));
 app.use('/api/tips', require('./routeHandler/tipsHandler'));
+app.use('/api/class', require('./routeHandler/classHandler'));
 // app.use('/api/transactions', verifyToken, require('./routeHandler/transactionHandler'));
 // app.use('/api/dashboard', verifyToken, require('./routeHandler/dashboardHandler'));
 // app.use('/api/budget', verifyToken, require('./routeHandler/budgetHandler'));
