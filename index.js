@@ -41,13 +41,41 @@ const verifyToken = (req, res, next) => {
         }
         // attach decoded user so that others can get it
         req.user = decoded
+        const Decoded = decoded
+        console.log(Decoded);
         next()
     });
-
-
 }
 
+const isAdmin = (req, res, next) => {
+    const { token } = req.cookies;
+    console.log(token);
+
+    // If the client does not send a token
+    if (!token) {
+        return res.status(401).send({ message: 'You are not authorized' });
+    }
+
+    // Verify the token
+    jwt.verify(token, secret, function (err, decoded) {
+        if (err) {
+            return res.status(401).send({ message: 'You are not authorized' });
+        }
+
+        // Attach decoded user data to req and check if the user is admin
+        if (decoded && decoded.role === 'admin') {
+            req.user = decoded; // Attach the decoded token data (e.g., role, userId)
+            console.log(decoded);
+            next(); // Proceed to the next middleware or route
+        } else {
+            return res.status(403).send({ message: 'Access denied. Admins only.' });
+        }
+    });
+};
+
+
 module.exports = verifyToken;
+module.exports = isAdmin;
 
 // Handle OPTIONS requests
 app.options('*', cors());
