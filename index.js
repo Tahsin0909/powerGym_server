@@ -12,9 +12,11 @@ const app = express();
 
 // app.use(cors())
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://quickfinance-a948a.firebaseapp.com'],
+    origin: ['http://localhost:3000', 'https://power-gym-sable.vercel.app/'],
     credentials: true
 }));
+
+
 app.use(express.json());
 app.use(cookieParser());
 
