@@ -17,8 +17,9 @@ app.use(cors({
 app.use(express.json()); 
 app.use(cookieParser());
 
+// `mongodb+srv://tajisan789:<db_password>@cluster0.uxzfht6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 // database connection with mongoose
-mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.gf8ipgr.mongodb.net/${process.env.DB_NAME}`)
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.uxzfht6.mongodb.net/${process.env.DB_NAME}`)
     .then(() => console.log("Connected to MongoDB"))
     .catch(err => console.log("Error connecting to MongoDB", err)); 
 
@@ -73,15 +74,15 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', require('./routeHandler/userHandler'));
-app.use('/api/transactions', verifyToken, require('./routeHandler/transactionHandler'));
-app.use('/api/dashboard', verifyToken, require('./routeHandler/dashboardHandler'));
-app.use('/api/budget', verifyToken, require('./routeHandler/budgetHandler'));
-app.use('/api/goals', verifyToken, require('./routeHandler/goalHandler'));
-app.use('/api/progress', verifyToken, require('./routeHandler/progressHandler'));
-app.use('/api/payments', verifyToken, require('./routeHandler/paymentHandler.js'));
-app.use('/api/blogs', require('./routeHandler/blogHandler.js'));
+// app.use('/api/transactions', verifyToken, require('./routeHandler/transactionHandler'));
+// app.use('/api/dashboard', verifyToken, require('./routeHandler/dashboardHandler'));
+// app.use('/api/budget', verifyToken, require('./routeHandler/budgetHandler'));
+// app.use('/api/goals', verifyToken, require('./routeHandler/goalHandler'));
+// app.use('/api/progress', verifyToken, require('./routeHandler/progressHandler'));
+// app.use('/api/payments', verifyToken, require('./routeHandler/paymentHandler.js'));
+// app.use('/api/blogs', require('./routeHandler/blogHandler.js'));
 // for asset 
-app.use('/api/assets',verifyToken, require('./routeHandler/assetHandler.js'));
+// app.use('/api/assets',verifyToken, require('./routeHandler/assetHandler.js'));
 
 // default error handler
 function errorHandler(err, req, res, next) {
