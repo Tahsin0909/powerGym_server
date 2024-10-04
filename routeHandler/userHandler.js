@@ -29,14 +29,11 @@ router.post('/', async (req, res) => {
         // creating token and send to client
         const userData = req.body
         const token = jwt.sign(userData, secret, { expiresIn: 60 * 60 })
-
-
-
         res.cookie('token', token, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none'
-        }).status(201).json({ success: true, statusCode: 201, message: 'User added successfully' });
+            secure: process.env.NODE_ENV === 'production', // Ensure secure is false in development
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' // Adjust for local testing
+        }).status(201).json({ success: true, message: 'User added successfully' });
 
 
     } catch (err) {
