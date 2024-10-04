@@ -28,7 +28,6 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS
 //verify token and grant access
 const verifyToken = (req, res, next) => {
     const { token } = req.cookies
-    console.log(token);
     //if client does not send token
     if (!token) {
         return res.status(401).send({ message: 'You are not authorized' })
@@ -42,14 +41,12 @@ const verifyToken = (req, res, next) => {
         // attach decoded user so that others can get it
         req.user = decoded
         const Decoded = decoded
-        console.log(Decoded);
         next()
     });
 }
 
 const isAdmin = (req, res, next) => {
     const { token } = req.cookies;
-    console.log(token);
 
     // If the client does not send a token
     if (!token) {
@@ -75,7 +72,6 @@ const isAdmin = (req, res, next) => {
         // Attach decoded user data to req and check if the user is admin
         if (decoded && decoded.role === 'admin') {
             req.user = decoded; // Attach the decoded token data (e.g., role, userId)
-            console.log(decoded);
             next(); // Proceed to the next middleware or route
         } else {
             return res.status(403).send({ message: 'Access denied. Admins only.' });
@@ -92,23 +88,6 @@ app.options('*', cors());
 
 
 
-
-// Auth related APIs
-
-app.post('/api/v1/jwt', (req, res) => {
-    // creating token and send to client
-    const user = req.body
-    const token = jwt.sign(user, secret, { expiresIn: 60 * 60 })
-    // res.send(token)
-    console.log(token);
-    res.cookie('token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
-    }).send({ success: true })
-})
-
-
 app.post('/api/v1/logout', async (req, res) => {
     res.clearCookie('token', { maxAge: 0 }).send({ success: true });
 });
@@ -122,15 +101,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', require('./routeHandler/userHandler'));
 app.use('/api/tips', require('./routeHandler/tipsHandler'));
 app.use('/api/class', require('./routeHandler/classHandler'));
-// app.use('/api/transactions', verifyToken, require('./routeHandler/transactionHandler'));
-// app.use('/api/dashboard', verifyToken, require('./routeHandler/dashboardHandler'));
-// app.use('/api/budget', verifyToken, require('./routeHandler/budgetHandler'));
-// app.use('/api/goals', verifyToken, require('./routeHandler/goalHandler'));
-// app.use('/api/progress', verifyToken, require('./routeHandler/progressHandler'));
-// app.use('/api/payments', verifyToken, require('./routeHandler/paymentHandler.js'));
-// app.use('/api/blogs', require('./routeHandler/blogHandler.js'));
-// for asset 
-// app.use('/api/assets',verifyToken, require('./routeHandler/assetHandler.js'));
+
 
 // default error handler
 function errorHandler(err, req, res, next) {
