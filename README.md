@@ -7,6 +7,7 @@
 - [Installation](#installation)
 - [Environment Variable](#environment-variables)
 - [Running Locally](#running-locally)
+- [Live](https://power-gym-server.vercel.app/)
 
 
 
