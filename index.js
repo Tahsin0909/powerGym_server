@@ -7,15 +7,19 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const secret = process.env.ACCESS_TOKEN_SECRET;
 
+// Check if secret exists
+if (!secret) {
+    throw new Error("ACCESS_TOKEN_SECRET is not defined in environment variables");
+}
+
 // express app initialization
 const app = express();
 
-// app.use(cors())
+// Cors configuration
 app.use(cors({
     origin: ['http://localhost:3000', 'https://power-gym-sable.vercel.app/'],
     credentials: true
 }));
-
 
 app.use(express.json());
 app.use(cookieParser());
@@ -23,79 +27,68 @@ app.use(cookieParser());
 // database connection with mongoose
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.uxzfht6.mongodb.net/${process.env.DB_NAME}`)
     .then(() => console.log("Connected to MongoDB"))
-    .catch(err => console.log("Error connecting to MongoDB", err));
-
-
+    .catch(err => {
+        console.log("Error connecting to MongoDB", err);
+        process.exit(1);  // Stop the app if there's a database connection issue
+    });
 
 //verify token and grant access
 const verifyToken = (req, res, next) => {
-    const { token } = req.cookies
-    //if client does not send token
+    const { token } = req.cookies;
     if (!token) {
-        return res.status(401).send({ message: 'You are not authorized' })
+        return res.status(401).send({ message: 'You are not authorized' });
     }
 
     // verify a token symmetric
     jwt.verify(token, secret, function (err, decoded) {
         if (err) {
-            return res.status(401).send({ message: 'You are not authorized' })
+            return res.status(401).send({ message: 'You are not authorized', error: err.message });
         }
-        // attach decoded user so that others can get it
-        req.user = decoded
-        next()
+        req.user = decoded;
+        next();
     });
 }
 
 const isAdmin = (req, res, next) => {
     const { token } = req.cookies;
 
-    // If the client does not send a token
     if (!token) {
         return res.status(401).send({
-            "success": false,
-            "message": "Unauthorized access.",
-            "errorDetails": "You must be an admin to perform this action."
-        }
-        );
+            success: false,
+            message: "Unauthorized access.",
+            errorDetails: "You must be an admin to perform this action."
+        });
     }
 
-    // Verify the token
     jwt.verify(token, secret, function (err, decoded) {
         if (err) {
             return res.status(401).send({
-                "success": false,
-                "message": "token err.",
-                "errorDetails": "You must be an admin to perform this action."
-            }
-            );
+                success: false,
+                message: "token err.",
+                errorDetails: "You must be an admin to perform this action."
+            });
         }
 
-        // Attach decoded user data to req and check if the user is admin
         if (decoded && decoded.role === 'admin') {
-            req.user = decoded; // Attach the decoded token data (e.g., role, userId)
-            next(); // Proceed to the next middleware or route
+            req.user = decoded;
+            next();
         } else {
             return res.status(403).send({ message: 'Access denied. Admins only.' });
         }
     });
 };
 
-
-module.exports = verifyToken;
-module.exports = isAdmin;
-
-// Handle OPTIONS requests
 app.options('*', cors());
 
-
-
+// Logout route
 app.post('/api/v1/logout', async (req, res) => {
     res.clearCookie('token', { maxAge: 0 }).send({ success: true });
 });
 
+// Favicon route to prevent errors
 app.get('/favicon.ico', (req, res) => res.status(204));
 
-// Your existing routes and handlers
+// Routes
 app.get('/', (req, res) => {
     res.send("Hello Stranger!!");
 });
@@ -104,20 +97,19 @@ app.use('/api/users', require('./routeHandler/userHandler'));
 app.use('/api/tips', require('./routeHandler/tipsHandler'));
 app.use('/api/class', require('./routeHandler/classHandler'));
 
-
-// default error handler
+// Error handler
 function errorHandler(err, req, res, next) {
     if (res.headersSent) {
         return next(err);
     }
-    console.error(err); // Log the error for debugging
+    console.error(err);
     res.status(500).json({ error: err.message });
 }
 
-
 app.use(errorHandler);
-
 
 app.listen(port, () => {
     console.log('Server started on port 2000');
 });
+
+module.exports = { verifyToken, isAdmin };
