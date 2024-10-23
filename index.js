@@ -81,8 +81,6 @@ const isAdmin = (req, res, next) => {
 };
 
 
-module.exports = verifyToken;
-module.exports = isAdmin;
 
 // Handle OPTIONS requests
 app.options('*', cors());
@@ -121,3 +119,5 @@ app.use(errorHandler);
 app.listen(port, () => {
     console.log('Server started on port 2000');
 });
+
+module.exports = {verifyToken, isAdmin};

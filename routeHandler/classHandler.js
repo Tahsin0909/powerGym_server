@@ -3,27 +3,27 @@ const router = express.Router();
 const Class = require('../schema/classSchema');
 
 // Route for adding a new class with a date limit of 5 classes per day
-router.post('/', async (req, res) => {
-    const { date } = req.body;
+// router.post('/', async (req, res) => {
+//     const { date } = req.body;
 
-    try {
-        // Count how many classes already exist on the same date
-        const classCount = await Class.countDocuments({ date });
+//     try {
+//         // Count how many classes already exist on the same date
+//         const classCount = await Class.countDocuments({ date });
 
-        // Limit the number of classes to 5 per day
-        if (classCount >= 5) {
-            return res.status(400).json({ success: false, message: "Cannot add more than 5 classes on the same day" });
-        }
+//         // Limit the number of classes to 5 per day
+//         if (classCount >= 5) {
+//             return res.status(400).json({ success: false, message: "Cannot add more than 5 classes on the same day" });
+//         }
 
-        // Create and save a new class
-        const newClass = new Class(req.body);
-        await newClass.save();
+//         // Create and save a new class
+//         const newClass = new Class(req.body);
+//         await newClass.save();
 
-        res.status(201).json({ success: true, message: "Class added successfully", data: newClass });
-    } catch (err) {
-        res.status(500).json({ success: false, message: "Internal Server Error", error: err.message });
-    }
-});
+//         res.status(201).json({ success: true, message: "Class added successfully", data: newClass });
+//     } catch (err) {
+//         res.status(500).json({ success: false, message: "Internal Server Error", error: err.message });
+//     }
+// });
 
 // Route for fetching all classes
 router.get('/', async (req, res) => {
