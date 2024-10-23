@@ -82,7 +82,7 @@ const isAdmin = (req, res, next) => {
 };
 
 
-module.exports = {verifyToken, isAdmin};
+module.exports = verifyToken, isAdmin;
 
 // Handle OPTIONS requests
 app.options('*', cors());
