@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../schema/userSchema')
-const verifyToken = require("../index")
-const isAdmin = require('../index')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { verifyToken } = require('../middleware'); 
 const secret = process.env.ACCESS_TOKEN_SECRET;
 
 
@@ -47,7 +46,7 @@ router.post('/', async (req, res) => {
 
 
 // get all users
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try {
         const users = await User.find()
         res.json(users)
