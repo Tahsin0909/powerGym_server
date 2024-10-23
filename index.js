@@ -26,7 +26,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS
 
 
 //verify token and grant access
-const verifyToken = (req, res, next) => {
+export const verifyToken = (req, res, next) => {
     const { token } = req.cookies
     //if client does not send token
     if (!token) {
@@ -44,7 +44,7 @@ const verifyToken = (req, res, next) => {
     });
 }
 
-const isAdmin = (req, res, next) => {
+export const isAdmin = (req, res, next) => {
     const { token } = req.cookies;
 
     // If the client does not send a token
