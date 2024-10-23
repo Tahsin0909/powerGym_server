@@ -22,8 +22,6 @@ app.use(cookieParser());
 
 // database connection with mongoose
 mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.uxzfht6.mongodb.net/${process.env.DB_NAME}`)
-    .then(() => console.log("Connected to MongoDB"))
-    .catch(err => console.log("Error connecting to MongoDB", err));
 
 
 
@@ -51,6 +49,7 @@ const isAdmin = (req, res, next) => {
 
     // If the client does not send a token
     if (!token) {
+        console.log("token nai");
         return res.status(401).send({
             "success": false,
             "message": "Unauthorized access.",
@@ -62,6 +61,8 @@ const isAdmin = (req, res, next) => {
     // Verify the token
     jwt.verify(token, secret, function (err, decoded) {
         if (err) {
+        console.log(" jwt token nai");
+
             return res.status(401).send({
                 "success": false,
                 "message": "token err.",
