@@ -11,6 +11,10 @@ const tipsSchema = new mongoose.Schema({
     likes : {
         type: Array, 
     },
+    category : {
+        type: String, 
+    },
+
 
 })
 
