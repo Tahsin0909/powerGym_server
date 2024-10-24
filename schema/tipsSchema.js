@@ -14,6 +14,9 @@ const tipsSchema = new mongoose.Schema({
     category : {
         type: String, 
     },
+    tips : {
+        type: String, 
+    },
 
 
 })
