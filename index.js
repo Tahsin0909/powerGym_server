@@ -12,7 +12,7 @@ const app = express();
 
 // app.use(cors())
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: true, // Allows requests from any origin
     credentials: true
 }));
 
@@ -21,7 +21,18 @@ app.use(express.json());
 app.use(cookieParser());
 
 // database connection with mongoose
-mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.uxzfht6.mongodb.net/${process.env.DB_NAME}`)
+async function Run() {
+    try {
+       await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.uxzfht6.mongodb.net/${process.env.DB_NAME}`)
+       console.log("DB connected");
+       
+    } catch (error) {
+        console.log('DB not connected');
+        
+    }
+}
+
+Run()
 
 
 

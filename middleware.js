@@ -5,16 +5,18 @@ const secret = process.env.ACCESS_TOKEN_SECRET;
 
 //verify token and grant access
 const verifyToken = (req, res, next) => {
+    console.log("token nai");
     const { token } = req.cookies
     //if client does not send token
     if (!token) {
-        return res.status(401).send({ message: 'You are not authorized' })
+        console.log("token nai");
+        return res.status(401).send({ message: 'You are authorized' })
     }
 
     // verify a token symmetric
     jwt.verify(token, secret, function (err, decoded) {
         if (err) {
-            return res.status(401).send({ message: 'You are not authorized' })
+            return res.status(401).send({ message: 'You are not' })
         }
         // attach decoded user so that others can get it
         req.user = decoded
