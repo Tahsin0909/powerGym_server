@@ -25,13 +25,11 @@ router.post('/', async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10); // Generate salt
         user.password = await bcrypt.hash(password, salt); // Hash the password
-
         const newUser = await user.save(); // Save the user to the database
         console.log(newUser);
         // creating token and send to client
-        const userData = req.body
-        const token = jwt.sign(userData, secret, { expiresIn: '1h' })
-        console.log(token);
+        // const userData = req.body
+        // const token = jwt.sign(userData, secret, { expiresIn: '1h' })
         res.send(newUser)
         // res.cookie('token', token, {
         //     httpOnly: true,
@@ -40,10 +38,8 @@ router.post('/', async (req, res) => {
         // }).status(201).json({ success: true, statusCode: 201, message: 'User added successfully' });
 
     } catch (err) {
-        console.log("esfededf");
-        // Handle duplicate email error
         if (err.code === 11000) {
-            return res.status(400).json({ message: 'Email already exists' });
+            return res.status(400).send({ message: 'Email already exists' });
         }
         res.status(500).json({ message: err.message });
     }

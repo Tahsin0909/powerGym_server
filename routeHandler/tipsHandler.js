@@ -13,6 +13,15 @@ router.get('/',  async (req, res) => {
         res.send('Error ' + err)
     }
 }) 
+// get all tips
+router.get('/',  async (req, res) => {
+    try {
+        const users = await tips.find()
+        res.json(users)
+    } catch(err) {
+        res.send('Error ' + err)
+    }
+}) 
 
 router.patch('/like/:id', async(req,res) =>{
 
