@@ -39,6 +39,22 @@ router.patch('/like/:id', async(req,res) =>{
         res.status(500).json({message: err.message})
     }
 })
+router.patch('/like/:id', async(req,res) =>{
+
+    try{
+        const Tips = await tips.findById(req.params.id);
+        if( Tips.likes.indexOf(req.body.email) > -1){
+            Tips.likes = Tips.likes.filter(email => email !== req.body.email); 
+        } else {
+            Tips.likes.push(req.body.email);
+        }
+        
+        const updatedBlog = await Tips.save();
+        res.json(updatedBlog);
+    } catch(err){
+        res.status(500).json({message: err.message})
+    }
+})
 
 
 
